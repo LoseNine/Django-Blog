@@ -1,4 +1,4 @@
-用django1搭建的博客
+用django2.0搭建的博客
 
 后台是jet
 
