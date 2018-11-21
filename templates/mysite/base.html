@@ -7,17 +7,14 @@
     <title>
         {% block title %}{% endblock %}
     </title>
-    <!--最新boot文件-->
     <link rel="stylesheet" href="http://cdn.bootcss.com/twitter-bootstrap/3.0.3/css/bootstrap.min.css">
-    <!--jquery 要在boot.min.js之前-->
-    <srcipt src="http://cdn.bootcss.com/jquery/1.10.2/jquery.min.js"></srcipt>
-    <!--核心boot的js-->
+    <script src="http://cdn.bootcss.com/jquery/1.10.2/jquery.min.js"></script>
     <script src="http://cdn.bootcss.com/twitter-bootstrap/3.0.3/js/bootstrap.min.js"></script>
-    <script src="{% static 'css/all.css' %}"></script>
     {% block extra_head %}
     {% endblock %}
 </head>
 <body>
+<header>
 <nav class="navbar navbar-default">
   <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
@@ -41,16 +38,20 @@
     </div><!-- /.navbar-collapse -->
 
 </nav>
+</header>
     <div class="container">
+        <div class="row">
         {% block content %}
         {% endblock %}
-        <address class="text-center">
-          <strong>LoseNine.</strong><br>
-          created by Django<br>
-        </address>
+        </div>
     </div>
 
-
+<footer>
+    <address class="text-center">
+          <strong>LoseNine.</strong><br>
+          created by Django<br>
+    </address>
+</footer>
 </body>
 
 </html>

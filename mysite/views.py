@@ -1,7 +1,6 @@
-from django.shortcuts import render,get_object_or_404,redirect
-from .models import Articles,Comment
+from django.shortcuts import render,get_object_or_404
+from .models import Articles
 from django.views.generic import ListView,DeleteView,TemplateView,RedirectView,FormView,View
-from django.views.generic.base import ContextMixin
 from django.core.paginator import Paginator,PageNotAnInteger,EmptyPage
 from .forms import EmailForm,CommentForm
 from django.core.mail import send_mail
@@ -46,7 +45,7 @@ class ArticleDetial(View):
             new_comm.article=article
             new_comm.save()
             msg='评论成功'
-        return render(request, 'mysite/articleDetial.html', locals())
+            return render(request, 'mysite/articleDetial.html', locals())
 
 class article_share(View):
     def get(self,request,pk):
@@ -66,7 +65,7 @@ class article_share(View):
             return render(request, 'mysite/share.html', locals())
 
 #引擎
-#这个引擎做出了没达到预期效果
+#这个引擎做出来没达到预期效果
 #自己写了一个模糊查询
 class MySeachView(SearchView):
     template = 'search/search.html'

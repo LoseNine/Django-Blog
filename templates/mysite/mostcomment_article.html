@@ -1,0 +1,11 @@
+{% load mysite_tags %}
+<div class="text-right">
+    评论最多
+    <ul>
+    {% for post in mostcomment_articles %}
+     <li class=" text-right list-unstyled">
+         <a href="{% url 'mysite:articledetial' post.slug %}">{{ post.title}}-{{ post.slug|total_comment }}条评论</a>
+     </li>
+    {% endfor %}
+</ul>
+</div>

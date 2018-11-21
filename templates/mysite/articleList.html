@@ -3,6 +3,7 @@
 
 {% block content %}
     <h1 class="text-center">我的个人小站</h1>
+    <section class="col-md-5">
         {% for a in articles %}
             <h2>
             <a href="{% url 'mysite:articledetial' a.slug %}">{{ a.title }}</a>
@@ -15,6 +16,12 @@
             </p>
             {{ a.content|truncatechars:30|linebreaks }}
         {% endfor %}
-    {% show_latest_articles  %}
     {% include 'mysite/paginator.html' with page=page_obj %}
+    </section>
+    <section class="col-md-4">
+    {% show_latest_articles  %}
+    </section>
+    <section class="col-md-4">
+    {% mostcomment_articles %}
+    </section >
 {% endblock %}

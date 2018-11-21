@@ -14,15 +14,15 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path,re_path,include
+from django.urls import path,include
 from django.conf.urls import url
 from mysite.views import *
 
 
-from django.views.static import serve
-from django.conf import settings
-
-from haystack.views import SearchView
+# from django.views.static import serve
+# from django.conf import settings
+#
+# from haystack.views import SearchView
 
 urlpatterns = [
     #jet后台
@@ -33,6 +33,5 @@ urlpatterns = [
     path('search/',MySeachView(),name='haystack'),
 
     path('admin/', admin.site.urls),
-    re_path(r'media/(?P<path>.*)$',serve,{'document_root':settings.MEDIA_ROOT}),
-    path('mysite/',include('mysite.urls',namespace='mysite')),
+    path('mysite/',include('mysite.urls',namespace='mysite'))
 ]
