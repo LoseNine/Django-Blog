@@ -1,0 +1,60 @@
+{% extends 'mysite/base.html' %}
+
+{% block content %}
+    <h1 class="text-center">{{ article.title }}</h1>
+                {% for t in article.tags.all %}
+                <span class="label label-success text-center">{{ t}}</span>
+                {% endfor %}
+    <p class="datetime">
+        Published {{ article.publish }} by {{ article.user }}
+    </p>
+    <hr>
+    {{ article.content|linebreaks }}
+<hr>
+    <h2>相似帖子</h2>
+    {%  for p in similar_articles %}
+{#        <a href="{% url 'mysite:articledetial' p.slug %}">{{ p.title }}</a>#}
+        <ul class="list-group">
+              <li class="list-group-item"><a href="{% url 'mysite:articledetial' p.slug %}">{{ p.title }}</a></li>
+        </ul>
+        {% empty %}
+        <p>没有类似帖子</p>
+    {% endfor %}
+
+<hr>
+    我来评论：
+    <form action="." method="post">
+    {% csrf_token %}
+      <div class="form-group">
+        <label for="name">你的名字</label>
+        <input type="password" class="form-control" id="name" name="name" placeholder="无名" >
+      </div>
+      <div class="form-group">
+        <label for="to">Email 地址</label>
+        <input type="email" class="form-control" id="to" name='to' placeholder="Email">
+      </div>
+      <div class="form-group">
+        <label for="text">评论</label>
+        <textarea class="form-control" id='text' name='comments' rows="3"></textarea>
+      </div>
+      <button type="submit" class="btn btn-success" >评论</button>
+    </form>
+    {% if msg %}
+        {{ msg }}
+    {% endif %}
+<hr>
+    {% for c in comments %}
+        <div class="comment">
+            <p class="info">
+                评论 {{ forloop.counter }} 来自 {{ c.name }}
+            </p>
+            {{ c.body|linebreaks }}
+        </div>
+    {% empty %}
+        <p>暂时无人评论</p>
+    {% endfor %}
+
+<hr>
+    <a href="{% url 'mysite:articleshare' article.id %}">分享帖子</a>
+
+{% endblock %}

@@ -1,0 +1,10 @@
+<div class="text-right">
+    最新帖子
+    <ul>
+    {% for post in latest_article %}
+     <li class=" text-right list-unstyled">
+         <a href="{% url 'mysite:articledetial' post.slug %}">{{ post.title}}-{{ post.created_time }}</a>
+     </li>
+    {% endfor %}
+</ul>
+</div>

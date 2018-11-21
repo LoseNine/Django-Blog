@@ -1,0 +1,20 @@
+{% extends 'mysite/base.html' %}
+{% load mysite_tags %}
+
+{% block content %}
+    <h1 class="text-center">我的个人小站</h1>
+        {% for a in articles %}
+            <h2>
+            <a href="{% url 'mysite:articledetial' a.slug %}">{{ a.title }}</a>
+            </h2>
+            {% for t in a.tags.all %}
+                <span class="label label-success">{{ t}}</span>
+                {% endfor %}
+            <p class="datetime">
+            Published {{ a.publish }} by {{ a.user }}
+            </p>
+            {{ a.content|truncatechars:30|linebreaks }}
+        {% endfor %}
+    {% show_latest_articles  %}
+    {% include 'mysite/paginator.html' with page=page_obj %}
+{% endblock %}

@@ -1,0 +1,25 @@
+<nav aria-label="Page navigation" class="text-center">
+  <ul class="pagination">
+    <li>
+        {% if page.has_previous %}
+        <a href="?page={{ previous_page_number }}" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+          {% endif %}
+      </a>
+    </li>
+  {% for pp in pages.page_range %}
+      {% if pp == page.number %}
+    <li><a href="#">{{ pp }}</a></li>
+      {% else %}
+    <li><a href="?page={{ pp }}">{{ pp }}</a></li>
+       {% endif %}
+       {% endfor %}
+    <li>
+        {% if page.has_next %}
+      <a href="/mysite/?page={{ page.next_page_number }}" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+        {% endif %}
+    </li>
+  </ul>
+</nav>

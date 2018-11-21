@@ -1,0 +1,56 @@
+{% load staticfiles %}
+{% load mysite_tags %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>
+        {% block title %}{% endblock %}
+    </title>
+    <!--最新boot文件-->
+    <link rel="stylesheet" href="http://cdn.bootcss.com/twitter-bootstrap/3.0.3/css/bootstrap.min.css">
+    <!--jquery 要在boot.min.js之前-->
+    <srcipt src="http://cdn.bootcss.com/jquery/1.10.2/jquery.min.js"></srcipt>
+    <!--核心boot的js-->
+    <script src="http://cdn.bootcss.com/twitter-bootstrap/3.0.3/js/bootstrap.min.js"></script>
+    <script src="{% static 'css/all.css' %}"></script>
+    {% block extra_head %}
+    {% endblock %}
+</head>
+<body>
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/mysite">博客主页</a>
+    </div>
+
+      <form class="navbar-form navbar-left" action="/search" method="get">
+        <div class="form-group">
+            <input type="text" class="form-control" placeholder="Search" name="q">
+        </div>
+            <input type="submit"  value="搜索">
+      </form>
+
+    </div><!-- /.navbar-collapse -->
+
+</nav>
+    <div class="container">
+        {% block content %}
+        {% endblock %}
+        <address class="text-center">
+          <strong>LoseNine.</strong><br>
+          created by Django<br>
+        </address>
+    </div>
+
+
+</body>
+
+</html>

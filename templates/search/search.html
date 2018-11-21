@@ -1,0 +1,14 @@
+{% extends 'mysite/base.html' %}
+{% block content %}
+    <h1 class="center">搜索结果如下</h1>
+        {% for a in articles %}
+            <h2>
+            <a href="{% url 'mysite:articledetial' a.slug %}">{{ a.title }}</a>
+            </h2>
+            {% for t in a.tags.all %}
+                <span class="label label-success">{{ t}}</span>
+                {% endfor %}
+            {{ a.content|truncatechars:30|linebreaks }}
+        {% endfor %}
+
+{% endblock %}
