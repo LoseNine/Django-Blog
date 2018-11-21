@@ -3,7 +3,7 @@
 * haystack引擎搜索
 * redis记录浏览量
 * ajax前后台点赞交互
-* 使用验证码校验
+* 使用验证码进行评论校验
 
 
 ![](https://github.com/LoseNine/blog/blob/master/static/img/1.png)
