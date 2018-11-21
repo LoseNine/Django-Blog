@@ -7,6 +7,12 @@ from django.core.mail import send_mail
 from django.conf import settings
 from haystack.views import SearchView
 from django.db.models import Q
+import redis
+from django.conf import settings
+
+r=redis.StrictRedis(host=settings.REDIS_HOST,
+                    port=settings.REDIS_PORT,
+                    db=settings.REDIS_DB)
 # Create your views here.
 
 
@@ -35,7 +41,25 @@ class ArticleDetial(View):
 
         article_tags=article.tags.values_list('id',flat=True)
         similar_articles=Articles.objects.filter(tags__in=article_tags).exclude(id=article.id)
+        
+        #阅读人数
+        key='views{}'.format(article.slug)
+        vv = request.session.get(key, '')
+        if not vv:
+            '''为了防止多次刷views'''
+            request.session[key] = str(request.user)
+            request.session.set_expiry(0)  # 关闭浏览器的时候清除
+            total_views = r.incr('arricle:{}:views'.format(article.id))  # 每次访问增加1
+    
+        total_views = int(r.get('arricle:{}:views'.format(article.id)))
+        r.zincrby('article_ranking', article.id, 1)
+        article_ranking = r.zrange('article_ranking', 0, -1, desc=True)[:5]
+        article_ranking_ids = [int(id) for id in article_ranking]
+        most_viewed = list(Articles.objects.filter(id__in=article_ranking_ids))
+        most_viewed.sort(key=lambda x: article_ranking_ids.index(x.id))
+
         return render(request,'mysite/articleDetial.html',locals())
+
     def post(self,request,slug):
         forms=CommentForm(request.POST)
         article = get_object_or_404(Articles, slug=slug)
