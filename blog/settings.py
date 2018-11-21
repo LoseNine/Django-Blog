@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'haystack',
     'mysite.apps.MysiteConfig',
     'taggit',
-
+    'captcha',
 ]
 
 HAYSTACK_CONNECTIONS = {
@@ -95,7 +95,17 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-
+#缓存
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+        'LOCATION': 'my_cache_table',
+        'TIMEOUT': 60*10,   #秒
+        'OPTIONS': {    #删除到达数目的旧数值之前，允许存储数目
+            'MAX_ENTRIES': 100
+        }
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators

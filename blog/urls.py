@@ -31,6 +31,9 @@ urlpatterns = [
     #搜索引擎
     # url(r'^search/', include('haystack.urls')),
     path('search/',MySeachView(),name='haystack'),
+    # 验证码
+    url(r'captcha/', include('captcha.urls')),
+
 
     path('admin/', admin.site.urls),
     path('mysite/',include('mysite.urls',namespace='mysite'))

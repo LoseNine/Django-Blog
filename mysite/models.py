@@ -21,6 +21,7 @@ class Articles(models.Model):
     created_time=models.DateTimeField(auto_now_add=True)
     change_time=models.DateTimeField(auto_now=True)
     status=models.CharField(max_length=10,choices=CHOICE_STATUS,default='草稿')
+    like=models.IntegerField(default=0)
     tags=TaggableManager()
 
     def __str__(self):

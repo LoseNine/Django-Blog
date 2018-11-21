@@ -1,9 +1,36 @@
 {% extends 'mysite/base.html' %}
+{% load cache %}
 
+    {% block extra_head %}
+        <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+    {% endblock %}
 {% block content %}
+    <script>
+        $(document).ready(function () {
+            $("#btn-{{ article.id }}").click(function () {
+                alert('ok');
+                $.ajax({
+                        type:'GET',
+                        url:'/mysite/govote/{{ article.id }}',
+                        data:{
+                            'pollitemid':{{ article.id }}
+                        },
+                        success:function (like) {
+                            if(like==0){
+                                alert('无法投票');
+                            }else{
+                                $('#pollitem-{{ article.id }}').html(like);
+                                alert('投票成功！')
+                            }
+                        }
+                    });
+                });
+        })
+    </script>
+    {#    {% cache 500 sidebar  %}#}
     <div class="col-md-9">
         <h1 class="text-center">{{ article.title }}</h1>
-    <p>Views：{{ total_views }}</p>
+        <p>Views：{{ total_views }}</p>
         {% for t in article.tags.all %}
             <span class="label label-success text-center">{{ t }}</span>
         {% endfor %}
@@ -13,58 +40,52 @@
         </p>
         <hr>
         {{ article.content|linebreaks }}
+        <button type="button" class="btn btn-default btn-lg" id="btn-{{ article.id }}">
+          <span class="glyphicon glyphicon-star" aria-hidden="true"
+                id="pollitem-{{ article.id }}">{{ article.like }}</span> Star
+        </button>
+    {#    {% endcache %}#}
     </div>
+
     <div class="col-md-3">
-    <h2>相似帖子</h2>
-    {% for p in similar_articles %}
-        {#        <a href="{% url 'mysite:articledetial' p.slug %}">{{ p.title }}</a>#}
-        <ul class="list-group">
-            <li class="list-group-item"><a href="{% url 'mysite:articledetial' p.slug %}">{{ p.title }}</a></li>
-        </ul>
-    {% empty %}
-        <p>没有类似帖子</p>
-    {% endfor %}
-
-    <h2>最受欢迎的文章</h2>
-    <ul class="list-group">
-        {% for a in most_viewed %}
-            <li class="list-group-item"><a href="{% url 'mysite:articledetial' a.slug %}">{{ a.title }}</a></li>
+        <h2>相似帖子</h2>
+        {% for p in similar_articles %}
+            {#        <a href="{% url 'mysite:articledetial' p.slug %}">{{ p.title }}</a>#}
+            <ul class="list-group">
+                <li class="list-group-item"><a href="{% url 'mysite:articledetial' p.slug %}">{{ p.title }}</a></li>
+            </ul>
+        {% empty %}
+            <p>没有类似帖子</p>
         {% endfor %}
-    </ul>
-    <div>
-            <p>我来评论：</p>
-    <form action="." method="post">
-        {% csrf_token %}
-        <div class="form-group">
-            <label for="name">你的名字</label>
-            <input type="text" class="form-control" id="name" name="name" placeholder="无名">
-        </div>
-        <div class="form-group">
-            <label for="email">Email 地址</label>
-            <input type="email" class="form-control" id="email" name='email' placeholder="Email">
-        </div>
-        <div class="form-group">
-            <label for="body">评论</label>
-            <textarea class="form-control" id='body' name='body' rows="3"></textarea>
-        </div>
-        <button type="submit" class="btn btn-success">评论</button>
-    </form>
-    {% if msg %}
-        {{ msg }}
-    {% endif %}
-    <hr>
-    {% for c in comments %}
-        <div class="comment">
-            <p class="info">
-                评论 {{ forloop.counter }} 来自 {{ c.name }}
-            </p>
-            {{ c.body|linebreaks }}
-        </div>
-    {% empty %}
-        <p>暂时无人评论</p>
-    {% endfor %}
 
-    <hr>
-    <a href="{% url 'mysite:articleshare' article.id %}">分享帖子</a>
+        <h2>最受欢迎的文章</h2>
+        <ul class="list-group">
+            {% for a in most_viewed %}
+                <li class="list-group-item"><a href="{% url 'mysite:articledetial' a.slug %}">{{ a.title }}</a></li>
+            {% endfor %}
+        </ul>
+
+        <p>我来评论：</p>
+        <form action="." method="post">
+            {% csrf_token %}
+
+                {{ forms.as_table }}
+                <button type="submit" class="btn btn-success">评论</button>
+
+        </form>
+        <hr>
+        {% for c in comments %}
+            <div class="comment">
+                <p class="info">
+                    评论 {{ forloop.counter }} 来自 {{ c.name }}
+                </p>
+                {{ c.body|linebreaks }}
+            </div>
+        {% empty %}
+            <p>暂时无人评论</p>
+        {% endfor %}
+
+        <hr>
+        <a href="{% url 'mysite:articleshare' article.id %}">分享帖子</a>
 
 {% endblock %}
