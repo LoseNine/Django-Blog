@@ -1,0 +1,18 @@
+{% load mysite_tags %}
+<div class="text-right">
+    <span class="label label-primary">归档</span>
+    <ul>
+    {% for y in year %}
+        <ul>年份<p>{{ y }}</p>
+            {% for a in date_articles %}
+                {% if a.created_time.year == y %}
+                    <li class=" text-right list-unstyled">
+                     <a href="{% url 'mysite:articledetial' a.slug %}">{{ a.title}}</a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    {% endfor %}
+
+</ul>
+</div>

@@ -23,3 +23,13 @@ def show_latest_articles(count=5):
 def mostcomment_articles(count=5):
     mostcomment_articles=Articles.objects.annotate(total_comments=models.Count('comment')).order_by('-total_comments')[:count]
     return {'mostcomment_articles':mostcomment_articles}
+
+@register.inclusion_tag('mysite/date_article.html')
+def date_articles():
+    date_articles=Articles.objects.all().order_by('-created_time')
+    year=[]
+    for a in date_articles:
+        if a.created_time.year not in year:
+            year.append(a.created_time.year)
+    print(year)
+    return {'date_articles':date_articles,'year':year}
