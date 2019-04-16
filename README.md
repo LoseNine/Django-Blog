@@ -10,6 +10,7 @@
 
 列表页
 ![](https://github.com/LoseNine/blog/blob/master/static/img/2.png)
+![](https://github.com/LoseNine/blog/blob/master/static/img/3.png)
 详情页
 ![](https://github.com/LoseNine/blog/blob/master/static/img/7.png)
 通过邮件分享
